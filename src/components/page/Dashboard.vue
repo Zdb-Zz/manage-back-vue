@@ -119,7 +119,7 @@ export default {
             name: localStorage.getItem('ms_username'),
             todoList: [
                 {
-                    title: '今天要修复100个bug',
+                    title: '今天要修复n个bug',
                     status: false
                 },
                 {

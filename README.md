@@ -27,4 +27,7 @@ npm run e2e
 npm test
 ```
 
+后端部分传送门
+https://github.com/Zdb-Zz/manage-back-server/tree/master
+
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

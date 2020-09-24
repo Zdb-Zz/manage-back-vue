@@ -69,7 +69,12 @@ export default {
                 {
                     icon: 'el-icon-s-comment',
                     index: 'travelTable',
-                    title: '发布话题'
+                    title: '话题列表'
+                },
+                {
+                    icon: 'el-icon-s-comment',
+                    index: 'routeTable',
+                    title: '游记列表'
                 },
                 {
                     icon: 'el-icon-lx-calendar',

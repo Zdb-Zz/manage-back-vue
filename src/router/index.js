@@ -27,7 +27,12 @@ export default new Router({
                 {
                     path: '/travelTable',
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/travelTable.vue'),
-                    meta: { title: '用户列表' }
+                    meta: { title: '游记列表' }
+                },
+                {
+                    path: '/routeTable',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/routeTable.vue'),
+                    meta: { title: '路线列表' }
                 },
             ]
         },

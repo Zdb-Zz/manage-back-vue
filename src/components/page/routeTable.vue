@@ -3,23 +3,14 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 游记列表
+                    <i class="el-icon-lx-cascades"></i> 路线列表
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
             <div class="handle-box">
-                 <el-input v-model="query.location" placeholder="定位" class="handle-input100 mr10"></el-input>
+                 <el-input v-model="query.chooseCity" placeholder="城市" class="handle-input100 mr10"></el-input>
                  <el-input v-model="query.username" placeholder="用户名" class="handle-input300 mr10"></el-input>
-                    <span class="demonstration">创建时间</span>
-                       <el-date-picker
-                            v-model="value"
-                            type="datetimerange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            align="right">
-                        </el-date-picker>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
             </div>
             <el-table
@@ -29,29 +20,28 @@
                 ref="multipleTable"
                 header-cell-class-name="table-header"
             >
-                <el-table-column prop="userName" label="用户名"  align="center"></el-table-column>
-                <el-table-column prop="words" label="文本内容" align="center"></el-table-column>
-                <el-table-column prop="showuserimg" label="图片(查看大图)" align="center">
+                <el-table-column prop="userName" label="用户名" width="100"  align="center"></el-table-column>
+                <el-table-column prop="routeName" label="自定义路线名" width="150" align="center"></el-table-column>
+                <el-table-column prop="chooseCity" label="城市" width="80" align="center"></el-table-column>
+                <el-table-column prop="backgroundurl" label="图片(查看大图)" width="80" align="center">
                     <template slot-scope="scope">
                         <el-image
                             class="table-td-thumb"
-                            :src="scope.row.showuserimg"
-                            :preview-src-list="[scope.row.showuserimg]"
+                            :src="scope.row.backgroundurl"
+                            :preview-src-list="[scope.row.backgroundurl]"
                         ></el-image>
                     </template>
                 </el-table-column>
-                <el-table-column prop="location" label="定位"  align="center"></el-table-column>
-                <el-table-column prop="createtime" label="创建时间"  align="center"></el-table-column>
-                <el-table-column prop="praseCount" label="点赞数" align="center">
-                    <template slot-scope="scope">{{scope.row.praseCount?scope.row.praseCount:0}}</template>
-                </el-table-column>
-                <el-table-column prop="answerId" label="操作" width="180" align="center">
+                <el-table-column prop="cityName" label="所选地点"  align="center"></el-table-column>
+                <el-table-column prop="expectedDuration" label="历时" width="100"  align="center"></el-table-column>
+                <el-table-column prop="remarks" label="备注"  width="120" align="center"></el-table-column>
+                <el-table-column prop="id" label="操作" width="80" align="center">
                     <template slot-scope="scope">
                         <el-button
                             type="text"
                             icon="el-icon-delete"
                             class="red"
-                            @click="handleDelete(scope.$index, scope.row,scope.row.answerId)"
+                            @click="handleDelete(scope.$index, scope.row,scope.row.id)"
                         >删除</el-button>
                     </template>
                 </el-table-column>
@@ -74,20 +64,18 @@
 
 <script>
 import { 
-    getTravels,
-    deleteTravels
+    getRouteList,
+    delRoutes
     } from '../../api/index';
 export default {
     name: 'traveltable',
     data() {
         return {
             query: {
-                location: '',
-                username: '',
+                chooseCity:'',
+                username:'',
                 pageIndex: 1,
                 pageSize: 10,
-                startTime: '',
-                endTime: ''
             },
             tableData: [],
             editVisible: false,
@@ -98,37 +86,28 @@ export default {
         
     },
     created() {
-        this.getTravelData();
+        this.getRoute();
     },
     methods: {
         // 获取 easy-mock 的模拟数据
-        getTravelData() {
-            getTravels(this.query).then(res => {
+        getRoute() {
+            getRouteList(this.query).then(res => {
                 this.tableData = res.data.partList;
                 this.pageTotal = res.data.total;
-                this.tableData.forEach(element => {
-                    element.createtime=moment(element.createtime).format('YYYY-MM-DD hh:mm:ss');
-                });
             });
         },
-        delTravel(answerId){
-            deleteTravels(answerId).then(res => {
+        delRoute(id){
+            delRoutes(id).then(res => {
                 console.log(res)
             });
         },
         // 触发搜索按钮
         handleSearch() {
             this.$set(this.query, 'pageIndex', 1);
-            if(this.value[0]==undefined || this.value[1]==undefined){
-                this.getTravelData();
-            }else{
-                this.query.startTime = moment(this.value[0]).format('YYYY-MM-DD hh:mm:ss');
-                this.query.endTime =moment(this.value[1]).format('YYYY-MM-DD hh:mm:ss');
-                this.getTravelData();
-            }
+            this.getRoute();
         },
         // 删除操作
-        handleDelete(index,row,answerId) {
+        handleDelete(index,row,id) {
             // 二次确认删除
             this.$confirm('确定要删除吗？', '提示', {
                 type: 'warning'
@@ -136,20 +115,21 @@ export default {
                 .then(() => {
                     this.$message.success('删除成功');
                     this.tableData.splice(index, 1);
-                    this.delTravel(answerId)
+                    this.pageTotal-=1;
+                    this.delRoute(id)
                 })
                 .catch(() => {});
         },
         handleSizeChange(val) {
             this.query.pageSize=val;
             this.$set(this.query);
-             this.getTravelData();
+            this.getRoute();
             console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
              this.query.pageIndex=val;
              this.$set(this.query);
-             this.getTravelData();
+            this.getRoute();
              console.log(`当前页: ${val}`);
         },
     }

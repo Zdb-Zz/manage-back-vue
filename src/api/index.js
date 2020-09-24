@@ -38,3 +38,17 @@ export const deleteTravels = answerId => {
         params: {answerId}
     });
 };
+export const getRouteList = query => {
+    return request({
+        url: '/route/getRouteList',
+        method: 'get',
+        params: query
+    });
+};
+export const delRoutes = id => {
+    return request({
+        url: '/route/deleteRoute',
+        method: 'get',
+        params: {id}
+    });
+};

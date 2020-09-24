@@ -116,13 +116,8 @@ export default {
                 pageSize: 10
             },
             tableData: [],
-            multipleSelection: [],
-            delList: [],
-            editVisible: false,
             pageTotal: 0,
             form: {},
-            idx: -1,
-            id: -1
         };
     },
     created() {

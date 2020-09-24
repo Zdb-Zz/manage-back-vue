@@ -59,3 +59,26 @@ export const getRouteFire = query => {
         params: query
     });
 };
+
+export const getTopicType = () => {
+    return request({
+        url: '/topic/getTopicType',
+        method: 'get'
+    });
+};
+
+export const getTopicList = query => {
+    return request({
+        url: '/topic/getTopicList',
+        method: 'get',
+        params: query
+    });
+};
+
+export const delTopics = id => {
+    return request({
+        url: '/topic/delTopic',
+        method: 'get',
+        params: {id}
+    });
+};

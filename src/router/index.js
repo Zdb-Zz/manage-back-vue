@@ -34,6 +34,11 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/routeTable.vue'),
                     meta: { title: '路线列表' }
                 },
+                {
+                    path: '/topicTable',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/topicTable.vue'),
+                    meta: { title: '话题列表' }
+                },
             ]
         },
         {

@@ -3,14 +3,21 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 路线列表
+                    <i class="el-icon-lx-cascades"></i> 话题列表
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
             <div class="handle-box">
-                 <el-input v-model="query.chooseCity" placeholder="城市" class="handle-input100 mr10"></el-input>
-                 <el-input v-model="query.username" placeholder="用户名" class="handle-input300 mr10"></el-input>
+                <el-select v-model="query.classification" clearable placeholder="请选择">
+                    <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                    </el-option>
+                </el-select>
+                 <el-input v-model="query.topicName" placeholder="话题" class="handle-input300 mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
             </div>
             <el-table
@@ -20,22 +27,18 @@
                 ref="multipleTable"
                 header-cell-class-name="table-header"
             >
-                <el-table-column prop="userName" label="用户名" width="100"  align="center"></el-table-column>
-                <el-table-column prop="routeName" label="自定义路线名" width="150" align="center"></el-table-column>
-                <el-table-column prop="chooseCity" label="城市" width="80" align="center"></el-table-column>
-                <el-table-column prop="backgroundurl" label="图片(查看大图)" width="80" align="center">
+                <el-table-column prop="classification" label="类型" width="150"  align="center"></el-table-column>
+                <el-table-column prop="icon" label="图片(查看大图)" width="120" align="center">
                     <template slot-scope="scope">
                         <el-image
                             class="table-td-thumb"
-                            :src="scope.row.backgroundurl"
-                            :preview-src-list="[scope.row.backgroundurl]"
+                            :src="scope.row.icon"
+                            :preview-src-list="[scope.row.icon]"
                         ></el-image>
                     </template>
                 </el-table-column>
-                <el-table-column prop="cityName" label="所选地点"  align="center"></el-table-column>
-                <el-table-column prop="expectedDuration" label="历时" width="100"  align="center"></el-table-column>
-                <el-table-column prop="remarks" label="备注"  width="120" align="center"></el-table-column>
-                <el-table-column prop="id" label="操作" width="80" align="center">
+                <el-table-column prop="name" label="话题"  align="center"></el-table-column>
+                <el-table-column prop="id" label="操作" width="100" align="center">
                     <template slot-scope="scope">
                         <el-button
                             type="text"
@@ -64,19 +67,21 @@
 
 <script>
 import { 
-    getRouteList,
-    delRoutes
+    getTopicType,
+    getTopicList,
+    delTopics
     } from '../../api/index';
 export default {
-    name: 'routetable',
+    name: 'topicTable',
     data() {
         return {
             query: {
-                chooseCity:'',
-                username:'',
+                classification:'',
+                topicName:'',
                 pageIndex: 1,
                 pageSize: 10,
             },
+            options: [],
             tableData: [],
             editVisible: false,
             pageTotal: 0,
@@ -86,25 +91,38 @@ export default {
         
     },
     created() {
-        this.getRoute();
+        this.getTopicType();
+        this.getTopic();
     },
     methods: {
         // 获取 easy-mock 的模拟数据
-        getRoute() {
-            getRouteList(this.query).then(res => {
+        getTopicType() {
+            getTopicType().then(res => {
+                for(var i=0;i<res.data.length;i++){
+                    this.options.push({
+                        value:res.data[i],
+                        label:res.data[i]
+                    })
+                }
+                console.log(this.options);
+            });
+        },
+        getTopic() {
+            getTopicList(this.query).then(res => {
                 this.tableData = res.data.partList;
                 this.pageTotal = res.data.total;
             });
         },
-        delRoute(id){
-            delRoutes(id).then(res => {
+        delTopic(id){
+            delTopics(id).then(res => {
                 console.log(res)
             });
         },
         // 触发搜索按钮
         handleSearch() {
             this.$set(this.query, 'pageIndex', 1);
-            this.getRoute();
+            console.log(this.query)
+            this.getTopic();
         },
         // 删除操作
         handleDelete(index,row,id) {
@@ -116,20 +134,20 @@ export default {
                     this.$message.success('删除成功');
                     this.tableData.splice(index, 1);
                     this.pageTotal-=1;
-                    this.delRoute(id)
+                    this.delTopic(id)
                 })
                 .catch(() => {});
         },
         handleSizeChange(val) {
             this.query.pageSize=val;
             this.$set(this.query);
-            this.getRoute();
+            this.getTopicList();
             console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
              this.query.pageIndex=val;
              this.$set(this.query);
-            this.getRoute();
+            this.getTopicList();
              console.log(`当前页: ${val}`);
         },
     }

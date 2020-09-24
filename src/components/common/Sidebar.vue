@@ -67,7 +67,7 @@ export default {
                     title: '用户列表'
                 },
                 {
-                    icon: 'el-icon-s-comment',
+                    icon: 'el-icon-edit-outline',
                     index: 'travelTable',
                     title: '游记列表'
                 },
@@ -75,6 +75,11 @@ export default {
                     icon: 'el-icon-bicycle',
                     index: 'routeTable',
                     title: '路线列表'
+                },
+                {
+                    icon: 'el-icon-chat-dot-round',
+                    index: 'topicTable',
+                    title: '话题列表'
                 },
                 {
                     icon: 'el-icon-lx-calendar',

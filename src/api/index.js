@@ -52,3 +52,10 @@ export const delRoutes = id => {
         params: {id}
     });
 };
+export const getRouteFire = query => {
+    return request({
+        url: '/route/getRouteFire',
+        method: 'get',
+        params: query
+    });
+};

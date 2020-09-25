@@ -113,8 +113,9 @@ export default {
                 sex: '',
                 username: '',
                 pageIndex: 1,
-                pageSize: 10
+                pageSize: 10,
             },
+            editVisible: false,
             tableData: [],
             pageTotal: 0,
             form: {},

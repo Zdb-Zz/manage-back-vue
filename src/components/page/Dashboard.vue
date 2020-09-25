@@ -111,7 +111,7 @@ export default {
     },
     computed: {
         role() {
-            return this.name === 'admin' ? '超级管理员' : '普通用户';
+            return this.name === '管理员' ? '超级管理员' : '普通用户';
         }
     },
     created() {

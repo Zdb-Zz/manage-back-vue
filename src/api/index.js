@@ -82,3 +82,26 @@ export const delTopics = id => {
         params: {id}
     });
 };
+export const getCityList = query => {
+    return request({
+        url: '/city/getCityList',
+        method: 'get',
+        params: query
+    });
+};
+
+export const updateCity = form => {
+    return request({
+        url: '/city/updateCity',
+        method: 'post',
+        data: form
+    });
+};
+
+export const addCity = form => {
+    return request({
+        url: '/city/addCity',
+        method: 'post',
+        data: form
+    });
+};

@@ -82,6 +82,11 @@ export default {
                     title: '话题列表'
                 },
                 {
+                    icon: 'el-icon-office-building',
+                    index: 'cityTable',
+                    title: '景点列表'
+                },
+                {
                     icon: 'el-icon-lx-calendar',
                     index: '3',
                     title: '表单相关',

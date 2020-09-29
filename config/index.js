@@ -14,8 +14,13 @@ module.exports = {
       '/api': {
       target: 'http://localhost:3000',
       changeOrigin: true,
-      pathRewrite:{"/api":""}
-    }
+      pathRewrite:{ '^/api':'' }
+    },
+    // '/pic': {
+    //   target: 'http://120.55.48.156/',
+    //   changeOrigin: true,
+    //   pathRewrite:{ '^/pic':'' }
+    // }
     },
 
     // Various Dev Server settings

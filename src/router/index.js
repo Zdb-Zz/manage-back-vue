@@ -39,6 +39,11 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/topicTable.vue'),
                     meta: { title: '话题列表' }
                 },
+                {
+                    path: '/cityTable',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/cityTable.vue'),
+                    meta: { title: '城市列表' }
+                },
             ]
         },
         {

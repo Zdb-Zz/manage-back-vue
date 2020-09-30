@@ -105,3 +105,10 @@ export const addCity = form => {
         data: form
     });
 };
+export const delCity = id => {
+    return request({
+        url: '/city/delCity',
+        method: 'get',
+        params: {id}
+    });
+};

@@ -97,9 +97,7 @@
                 <el-form-item label="纬度">
                     <el-input  v-model="form.latitude"></el-input>
                 </el-form-item>
-                <el-form-item label="标题">
-                    <el-input  v-model="form.title"></el-input>
-                </el-form-item>
+               
                 <el-form-item label="介绍">
                     <el-input  v-model="form.introduce"></el-input>
                 </el-form-item>
@@ -183,9 +181,7 @@
                 <el-form-item label="纬度">
                     <el-input :disabled="true" v-model="form.latitude"></el-input>
                 </el-form-item>
-                <el-form-item label="标题">
-                    <el-input :disabled="true" v-model="form.title"></el-input>
-                </el-form-item>
+               
                 <el-form-item label="介绍">
                     <el-input :disabled="true" v-model="form.introduce"></el-input>
                 </el-form-item>
@@ -271,9 +267,7 @@
                 <el-form-item label="纬度">
                     <el-input v-model="form.latitude"></el-input>
                 </el-form-item>
-                <el-form-item label="标题">
-                    <el-input  v-model="form.title"></el-input>
-                </el-form-item>
+                
                 <el-form-item label="介绍">
                     <el-input v-model="form.introduce"></el-input>
                 </el-form-item>

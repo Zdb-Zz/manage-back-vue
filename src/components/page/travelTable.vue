@@ -31,15 +31,15 @@
             >
                 <el-table-column prop="userName" label="用户名"  align="center"></el-table-column>
                 <el-table-column prop="words" label="文本内容" align="center"></el-table-column>
-                <el-table-column prop="showuserimg" label="图片(查看大图)" align="center">
+                <!-- <el-table-column prop="imgList" label="图片(查看大图)" align="center">
                     <template slot-scope="scope">
                         <el-image
                             class="table-td-thumb"
-                            :src="scope.row.showuserimg"
-                            :preview-src-list="[scope.row.showuserimg]"
+                            :src="scope.row.imgList[0]"
+                            :preview-src-list="[scope.row.showuserimg[0]]"
                         ></el-image>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column prop="location" label="定位"  align="center"></el-table-column>
                 <el-table-column prop="createtime" label="创建时间"  align="center"></el-table-column>
                 <el-table-column prop="praseCount" label="点赞数" align="center">
@@ -53,6 +53,11 @@
                             class="red"
                             @click="handleDelete(scope.$index, scope.row,scope.row.answerId)"
                         >删除</el-button>
+                       <el-button
+                            type="text"
+                            icon="el-icon-edit"
+                            @click="handleEdit(scope.$index, scope.row)"
+                        >图片列表</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -68,6 +73,23 @@
                     </el-pagination>
                 </div>
             </div>
+             <!-- 编辑弹出框 -->
+        <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
+            <el-form ref="form" :model="form" label-width="70px">
+                <el-image
+                    v-for="(value, key) in form.imgList"
+                    :key="key"
+                    class="table-td-thumb"
+                    :src="value"
+                    :preview-src-list="[value]"
+                ></el-image>
+               
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="editVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveEdit">确 定</el-button>
+            </span>
+        </el-dialog>
         </div>
     </div>
 </template>
@@ -152,6 +174,13 @@ export default {
              this.getTravelData();
              console.log(`当前页: ${val}`);
         },
+         handleEdit(index, row) {
+            console.log(index);
+            console.log(row);
+            this.idx = index;
+            this.form = row;
+            this.editVisible = true;
+        },
     }
 };
 </script>
@@ -188,5 +217,11 @@ export default {
     margin: auto;
     width: 40px;
     height: 40px;
+}
+.table-td-thumb{
+    display: inline-block;
+    margin: 5px;
+    width: 80px;
+    height: 80px
 }
 </style>
